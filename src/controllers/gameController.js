@@ -2,9 +2,6 @@ import connection from '../database.js';
 import { STATUS_CODE } from '../statusCode.js';
 
 async function getGames(req, res){
-
-    const name = req.query.name;
-
     try{
 
     } catch(error) {
