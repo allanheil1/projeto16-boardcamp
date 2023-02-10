@@ -3,7 +3,7 @@ import gameSchema from '../schemas/gameSchema.js';
 import { STATUS_CODE } from '../statusCode.js';
 
 async function validateGame(req, res, next){
-    
+
     const { name, stockTotal, pricePerDay } = req.body;
     
     const isValid = gameSchema.validate(req.body);
