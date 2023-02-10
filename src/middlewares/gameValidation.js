@@ -9,7 +9,7 @@ async function validateGame(req, res, next){
     const isValid = gameSchema.validate(req.body);
 
     if (isValid.error){
-        return res.sendStatus(STATUS_CODE.UNPROCESSABLE_ENTITY);
+        return res.sendStatus(STATUS_CODE.BAD_REQUEST);
     }
 
     if(stockTotal <= 0 || pricePerDay <= 0){
