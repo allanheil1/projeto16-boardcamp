@@ -3,6 +3,11 @@ import { STATUS_CODE } from '../statusCode.js';
 
 async function getGames(req, res){
     try{
+        const response = await connection.query(
+            `SELECT * FROM games`
+        );
+
+        return res.send(response.rows);
 
     } catch(error) {
         console.log(error);
