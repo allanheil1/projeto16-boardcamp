@@ -1,7 +1,7 @@
 import connection from '../database.js';
 import { STATUS_CODE } from '../statusCode.js';
 
-async function getGames(res){
+async function getGames(req, res){
     try{
         const response = await connection.query(
             `SELECT * FROM games`
