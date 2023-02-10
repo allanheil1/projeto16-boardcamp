@@ -46,7 +46,7 @@ async function getCustomersId(req, res){
         );
 
         if(response.rowCount > 0){
-            res.send(response.rows);
+            res.send(response.rows[0]);
         }else{
             res.sendStatus(STATUS_CODE.NOT_FOUND);
         }
