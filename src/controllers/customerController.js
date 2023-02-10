@@ -1,8 +1,13 @@
 import connection from '../database.js';
 import { STATUS_CODE } from '../statusCode.js';
 
-async function getCustomers(req, res){
+async function getCustomers(es){
     try{
+        const response = await connection.query(
+            `SELECT * FROM customers`
+        );
+
+        return res.send(response.rows);
 
     } catch(error) {
         console.log(error);
