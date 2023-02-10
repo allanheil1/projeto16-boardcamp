@@ -39,12 +39,17 @@ async function getCustomersId(req, res){
     const { id } = req.params;
 
     try{
+
         const response = await connection.query(
             `SELECT * FROM customers WHERE id=$1`,
             [id]
         );
 
-        res.send(response.rows);
+        if(response.rowCount > 0){
+            res.send(response.rows);
+        }else{
+            res.sendStatus(STATUS_CODE.NOT_FOUND);
+        }
 
     } catch(error) {
         console.log(error);
