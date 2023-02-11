@@ -14,7 +14,7 @@ async function validateRental(req, res, next){
 
     try{
 
-        if(daysRented <= 0){
+        if(daysRented <= 0 || gameId < 0 || customerId < 0){
             return res.sendStatus(STATUS_CODE.BAD_REQUEST);
         }
 
