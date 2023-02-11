@@ -58,6 +58,30 @@ async function validateRental(req, res, next){
 
 async function validateRentalId(req, res, next){
     
+    const { id } = req.params;
+
+    try{
+
+        const rentalExists = await connection.query(
+            `SELECT * FROM rentals WHERE id = $1`,
+            [id]
+        );
+
+        if(rentalExists.rows.length === 0){
+            res.sendStatus(STATUS_CODE.NOT_FOUND);
+        }
+
+        if(rentalExists.rows[0].returnDate !== null){
+            res.sendStatus(STATUS_CODE.BAD_REQUEST);
+        }
+
+        next();
+
+    } catch(error) {
+        console.log(error);
+        return res.sendStatus(STATUS_CODE.SERVER_ERROR);
+    }
+
 }
 
 export { validateRental, validateRentalId };
