@@ -123,7 +123,7 @@ async function concludeRentals(req, res){
 async function deleteRentals(req, res){
 
     const { id } = req.params;
-    console.log('aqui')
+
     try{
 
         const queryResult = await connection.query(
