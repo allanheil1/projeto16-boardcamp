@@ -67,13 +67,22 @@ async function validateRentalId(req, res, next){
             [id]
         );
 
+        console.log(rentalExists.rows[0]);
+
         if(rentalExists.rowCount === 0){
             return res.sendStatus(STATUS_CODE.NOT_FOUND);
         }
 
-        if(rentalExists.rows[0].returnDate === null){
-            return res.sendStatus(STATUS_CODE.BAD_REQUEST);
+        if(req.method === 'POST'){
+            if(rentalExists.rows[0].returnDate !== null){
+                return res.sendStatus(STATUS_CODE.BAD_REQUEST);
+            }
+        }else{
+            if(rentalExists.rows[0].returnDate === null){
+                return res.sendStatus(STATUS_CODE.BAD_REQUEST);
+            }  
         }
+
         
         req.locals = rentalExists.rows[0];
 

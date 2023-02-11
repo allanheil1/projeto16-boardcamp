@@ -108,8 +108,8 @@ async function concludeRentals(req, res){
         const delayFee = numberOfDelayedDays > 0 ? parseInt(numberOfDelayedDays) * queryResult.rows[0].pricePerDay : 0;
 
         await connection.query(
-            `UPDATE rentals SET "returnDate" = $1, "delayFee" = $2`,
-            [returnDate, delayFee]
+            `UPDATE rentals SET "returnDate" = $1, "delayFee" = $2 WHERE id=$3`,
+            [returnDate, delayFee, id]
         );
 
         return res.sendStatus(STATUS_CODE.OK);
