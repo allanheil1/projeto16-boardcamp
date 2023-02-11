@@ -57,7 +57,7 @@ async function validateRental(req, res, next){
 }
 
 async function validateRentalId(req, res, next){
-    
+
     const { id } = req.params;
 
     try{
@@ -74,7 +74,7 @@ async function validateRentalId(req, res, next){
         if(rentalExists.rows[0].returnDate !== null){
             res.sendStatus(STATUS_CODE.BAD_REQUEST);
         }
-
+        
         next();
 
     } catch(error) {

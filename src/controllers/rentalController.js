@@ -81,6 +81,7 @@ async function postRentals(req, res){
 async function concludeRentals(req, res){
 
     const { id } = req.params;
+
     const returnDate = dayjs().format('YYYY-MM-DD');
 
     try{
@@ -89,7 +90,7 @@ async function concludeRentals(req, res){
             `
                 SELECT
                     rentals.*,
-                    games."pricePerDay" AS "pricePerDay",
+                    games."pricePerDay" AS "pricePerDay"
                 FROM
                     rentals
                     JOIN games ON games.id = rentals."gameId"
@@ -101,7 +102,7 @@ async function concludeRentals(req, res){
 
         const numberOfDelayedDays = dayjs().diff(queryResult.rows[0], 'dayjs');
 
-        const delayFee = delayDays > 0 ? parseInt(numberOfDelayedDays) * queryResult.rows[0].pricePerDay : 0;
+        const delayFee = numberOfDelayedDays > 0 ? parseInt(numberOfDelayedDays) * queryResult.rows[0].pricePerDay : 0;
 
         await connection.query(
             `UPDATE rentals SET "returnDate" = $1, "delayFee" = $2`,
