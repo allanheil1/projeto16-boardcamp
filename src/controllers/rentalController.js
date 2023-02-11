@@ -35,9 +35,9 @@ async function getRentals(req, res){
                 }
             }
 
-            delete rentalObject.customerId;
+            //delete rentalObject.customerId;
             delete rentalObject.customerName;
-            delete rentalObject.gameId;
+            //delete rentalObject.gameId;
             delete rentalObject.gameName;
     
             return rentalObject;
