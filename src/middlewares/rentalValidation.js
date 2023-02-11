@@ -75,7 +75,7 @@ async function validateRentalId(req, res, next){
             res.sendStatus(STATUS_CODE.BAD_REQUEST);
         }
         
-        req.locals = rental.rows[0];
+        req.locals = rentalExists.rows[0];
 
         next();
 
