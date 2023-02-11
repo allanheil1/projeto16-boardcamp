@@ -28,7 +28,7 @@ async function postRentals(req, res){
 
         await connection.query(
             `INSERT INTO rentals ("customerId, "gameId, "rentDate", "daysRented", "returnDate", "originalPrice", "delayFee") VALUES ($1, $2, $3, $4, $5, $6, $7)`,
-            [customerId, gameId, rentDate, daysRented, NULL, originalPrice, NULL]
+            [customerId, gameId, rentDate, daysRented, null, originalPrice, null]
         );
 
         res.sendStatus(STATUS_CODE.CREATED);
