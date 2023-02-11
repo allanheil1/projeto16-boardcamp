@@ -2,7 +2,9 @@ import connection from '../database.js';
 import { STATUS_CODE } from '../statusCode.js';
 
 async function getCustomers(req, res){
+
     try{
+
         const response = await connection.query(
             `SELECT * FROM customers`
         );
@@ -58,7 +60,19 @@ async function getCustomersId(req, res){
 }
 
 async function updateCustomers(req, res){
+
+    const { id } = req.params;
+
+    const { name, phone, cpf, birthday } = req.body;
+
     try{
+
+        await connection.query(
+            `UPDATE customers SET name=$1, phone=$2, cpf=$3, birthday=$4 WHERE customers.id=$5`,
+            [name, phone, cpf, birthday, id]
+        );
+
+        res.sendStatus(STATUS_CODE.OK);
 
     } catch(error) {
         console.log(error);
