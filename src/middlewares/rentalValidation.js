@@ -71,7 +71,7 @@ async function validateRentalId(req, res, next){
             return res.sendStatus(STATUS_CODE.NOT_FOUND);
         }
 
-        if(rentalExists.rows[0].returnDate !== null){
+        if(rentalExists.rows[0].returnDate === null){
             return res.sendStatus(STATUS_CODE.BAD_REQUEST);
         }
         
