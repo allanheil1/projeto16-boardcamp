@@ -27,7 +27,7 @@ async function postRentals(req, res){
         const originalPrice = pricePerDay.rows[0].pricePerDay * daysRented;
 
         await connection.query(
-            `INSERT INTO rentals ("customerId, "gameId, "rentDate", "daysRented", "returnDate", "originalPrice", "delayFee") VALUES ($1, $2, $3, $4, $5, $6, $7)`,
+            `INSERT INTO rentals ("customerId", "gameId", "rentDate", "daysRented", "returnDate", "originalPrice", "delayFee") VALUES ($1, $2, $3, $4, $5, $6, $7)`,
             [customerId, gameId, rentDate, daysRented, null, originalPrice, null]
         );
 
