@@ -117,7 +117,26 @@ async function concludeRentals(req, res){
 }
 
 async function deleteRentals(req, res){
+
+    const { id } = req.params;
+
     try{
+
+        const queryResult = await connection.query(
+            `SELECT * FROM rentals WHERE id = $1`,
+            [id]
+        );
+
+        if(queryResult.rowCount === 0){
+            return res.sendStatus(STATUS_CODE.NOT_FOUND)
+        }
+
+        await connection.query(
+            `DELETE FROM Rentals WHERE id = $1`,
+            [id]
+        );
+
+        return res.sendStatus(STATUS_CODE.OK);
 
     } catch(error) {
         console.log(error);
