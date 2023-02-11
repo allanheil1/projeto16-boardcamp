@@ -33,11 +33,9 @@ async function getRentals(req, res){
                     id: rental.gameId,
                     name: rental.gameName
                 }
-            }
+            };
 
-            //delete rentalObject.customerId;
             delete rentalObject.customerName;
-            //delete rentalObject.gameId;
             delete rentalObject.gameName;
     
             return rentalObject;
@@ -81,7 +79,36 @@ async function postRentals(req, res){
 }
 
 async function concludeRentals(req, res){
+
+    const { id } = req.params;
+    const returnDate = dayjs().format('YYYY-MM-DD');
+
     try{
+
+        const queryResult = await connection.query(
+            `
+                SELECT
+                    rentals.*,
+                    games."pricePerDay" AS "pricePerDay",
+                FROM
+                    rentals
+                    JOIN games ON games.id = rentals."gameId"
+                WHERE
+                    rentals.id = $1
+            `,
+            [id]
+        );
+
+        const numberOfDelayedDays = dayjs().diff(queryResult.rows[0], 'dayjs');
+
+        const delayFee = delayDays > 0 ? parseInt(numberOfDelayedDays) * queryResult.rows[0].pricePerDay : 0;
+
+        await connection.query(
+            `UPDATE rentals SET "returnDate" = $1, "delayFee" = $2`,
+            [returnDate, delayFee]
+        );
+
+        return res.sendStatus(STATUS_CODE.OK);
 
     } catch(error) {
         console.log(error);
