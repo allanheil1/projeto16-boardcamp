@@ -3,7 +3,48 @@ import dayjs from 'dayjs';
 import { STATUS_CODE } from '../statusCode.js';
 
 async function getRentals(req, res){
+
     try{
+
+        const rentals = await connection.query(
+            `
+            SELECT 
+                rentals.*,
+                customers.name AS "customerName",
+                customers.id AS "customerId",
+                games.id AS "gameId",
+                games.name AS "gameName"
+            FROM 
+                rentals 
+                JOIN customers ON rentals."customerId" = customers.id
+                JOIN games ON games.id = rentals."gameId"
+            `
+        );
+
+        const getRentalsResponse = rentals.rows.map((rental) => { 
+            const rentalObject = { 
+                ...rental,
+                rentDate: dayjs(rental.rentDate).format('YYYY-MM-DD'),
+                customer: {
+                    id: rental.customerId,
+                    name: rental.customerName
+                },
+                game: {
+                    id: rental.gameId,
+                    name: rental.gameName
+                }
+            }
+
+            delete rentalObject.customerId;
+            delete rentalObject.customerName;
+            delete rentalObject.gameId;
+            delete rentalObject.gameName;
+    
+            return rentalObject;
+
+        });
+
+        return res.send(getRentalsResponse);
 
     } catch(error) {
         console.log(error);
