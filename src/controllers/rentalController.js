@@ -82,7 +82,7 @@ async function concludeRentals(req, res){
 
     const { id } = req.params;
 
-    const returnDate = dayjs().format('YYYY-MM-DD HH:mm');
+    const returnDate = dayjs().format('YYYY-MM-DD');
 
     try{
 
@@ -100,7 +100,7 @@ async function concludeRentals(req, res){
             [id]
         );
 
-        const numberOfDelayedDays = dayjs().format('YYYY-MM-DD').diff(queryResult.rows[0], "days");
+        const numberOfDelayedDays = dayjs().diff(queryResult.rows[0], "day");
 
         const delayFee = numberOfDelayedDays > 0 ? parseInt(numberOfDelayedDays) * queryResult.rows[0].pricePerDay : 0;
 
