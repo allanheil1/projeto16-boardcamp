@@ -36,4 +36,39 @@ async function validateCustomer(req, res, next){
 
 }
 
-export { validateCustomer };
+async function validateUpdateCustomer(req, res, next){
+
+    const { name, cpf } = req.body;
+    const { id } = req.params;
+
+    const isValid = customerSchema.validate(req.body);
+
+    if(isValid.error){
+        return res.sendStatus(STATUS_CODE.BAD_REQUEST);
+    }
+
+    if(name === ''){
+        return res.sendStatus(STATUS_CODE.BAD_REQUEST);
+    }
+
+    try{
+
+        const cpfExist = await connection.query(
+            `SELECT * FROM customers WHERE cpf = $1 AND id != $2`,
+            [cpf, id]
+        );
+
+        if(cpfExist.rowCount > 0){
+            return res.sendStatus(STATUS_CODE.CONFLICT);
+        }
+
+        next();
+        
+    } catch(error) {
+        console.log(error);
+        return res.sendStatus(STATUS_CODE.SERVER_ERROR);
+    }
+
+}
+
+export { validateCustomer, validateUpdateCustomer };
